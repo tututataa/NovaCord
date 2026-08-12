@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>NovaCord</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="app">
+
+        <!-- SERVIDORES -->
+        <aside class="servers">
+
+            <div class="server active">N</div>
+            <div class="server">🎮</div>
+            <div class="server">🔥</div>
+            <div class="server">😂</div>
+
+        </aside>
+
+
+        <!-- LISTA DE CANAIS -->
+        <aside class="sidebar">
+
+            <div class="server-header">
+                <span>NovaCord</span>
+                <button>⌄</button>
+            </div>
+
+            <div class="channels">
+
+                <div class="category">
+                    TEXT CHANNELS
+                </div>
+
+                <div class="channel active">
+                    <span>#</span>
+                    <p>geral</p>
+                </div>
+
+                <div class="channel">
+                    <span>#</span>
+                    <p>jogos</p>
+                </div>
+
+                <div class="channel">
+                    <span>#</span>
+                    <p>memes</p>
+                </div>
+
+
+                <div class="category">
+                    VOICE CHANNELS
+                </div>
+
+                <div class="channel">
+                    <span>🔊</span>
+                    <p>Geral</p>
+                </div>
+
+                <div class="channel">
+                    <span>🔊</span>
+                    <p>Jogos</p>
+                </div>
+
+            </div>
+
+
+            <!-- USUÁRIO -->
+            <div class="user-panel">
+
+                <div class="avatar">
+                    V
+                    <div class="status"></div>
+                </div>
+
+                <div class="user-info">
+                    <strong>Você</strong>
+                    <small>Online</small>
+                </div>
+
+                <button class="user-button">
+                    ⚙
+                </button>
+
+            </div>
+
+        </aside>
+
+
+        <!-- CHAT -->
+        <main class="chat">
+
+            <header class="chat-header">
+
+                <div class="channel-title">
+                    <span>#</span>
+                    <strong>geral</strong>
+                </div>
+
+                <div class="header-buttons">
+                    <button>🔔</button>
+                    <button>👥</button>
+                    <button>🔍</button>
+                    <button>📌</button>
+                    <button>⚙</button>
+                </div>
+
+            </header>
+
+
+            <!-- MENSAGENS -->
+            <section class="messages" id="messages">
+
+                <div class="welcome">
+
+                    <div class="welcome-icon">
+                        #
+                    </div>
+
+                    <h1>Bem-vindo ao NovaCord!</h1>
+
+                    <p>
+                        Este é o começo do canal #geral.
+                    </p>
+
+                </div>
+
+            </section>
+
+
+            <!-- CAMPO DE MENSAGEM -->
+            <div class="message-area">
+
+                <form id="messageForm">
+
+                    <button
+                        type="button"
+                        class="add-button">
+                        +
+                    </button>
+
+                    <input
+                        id="messageInput"
+                        type="text"
+                        placeholder="Enviar mensagem em #geral"
+                        autocomplete="off"
+                    >
+
+                    <button
+                        type="button"
+                        class="emoji-button">
+                        😊
+                    </button>
+
+                    <button
+                        type="submit"
+                        class="send-button">
+                        ➤
+                    </button>
+
+                </form>
+
+            </div>
+
+        </main>
+
+    </div>
+
+
+    <!-- SOCKET.IO -->
+    <script src="/socket.io/socket.io.js"></script>
+
+    <!-- JAVASCRIPT DO NOVACORD -->
+    <script src="script.js"></script>
+
+</body>
+
+</html>
