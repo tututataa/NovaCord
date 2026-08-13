@@ -17,16 +17,10 @@ const enterButton = document.getElementById("enterButton");
 let username = localStorage.getItem("novacord_username") || "";
 let currentChannel = "geral";
 
-
-// ========================================
-// WEBRTC
-// ========================================
-
 let localStream = null;
 let currentVoiceChannel = null;
 
 const peers = {};
-
 const remoteAudios = {};
 
 const rtcConfig = {
@@ -350,7 +344,6 @@ function criarPeerConnection(
     peers[socketId] = peer;
 
 
-    // Envia nosso microfone
     if (localStream) {
 
         localStream
@@ -367,7 +360,6 @@ function criarPeerConnection(
     }
 
 
-    // Recebe áudio do outro usuário
     peer.ontrack = (event) => {
 
         const stream =
@@ -387,9 +379,7 @@ function criarPeerConnection(
 
             audio.autoplay = true;
             audio.controls = false;
-
             audio.volume = 1;
-
             audio.style.display = "none";
 
             document.body.appendChild(audio);
@@ -405,7 +395,7 @@ function criarPeerConnection(
         audio.play().catch(() => {
 
             console.log(
-                "O navegador bloqueou o autoplay do áudio."
+                "O navegador bloqueou o áudio automático."
             );
 
         });
@@ -413,7 +403,6 @@ function criarPeerConnection(
     };
 
 
-    // ICE candidate
     peer.onicecandidate = (event) => {
 
         if (!event.candidate) return;
@@ -535,10 +524,6 @@ socket.on(
             peers[socketId];
 
 
-        // -----------------------------
-        // OFFER
-        // -----------------------------
-
         if (signal.type === "offer") {
 
             peer =
@@ -594,10 +579,6 @@ socket.on(
         }
 
 
-        // -----------------------------
-        // ANSWER
-        // -----------------------------
-
         if (signal.type === "answer") {
 
             if (!peer) {
@@ -625,10 +606,6 @@ socket.on(
             return;
         }
 
-
-        // -----------------------------
-        // ICE
-        // -----------------------------
 
         if (
             signal.type ===
@@ -685,7 +662,7 @@ socket.on(
 
 
 // ========================================
-// NOVO USUÁRIO ENTROU
+// NOVO USUÁRIO
 // ========================================
 
 socket.on(
@@ -935,12 +912,23 @@ function sairDaCall() {
     );
 
 
-    Object.keys(peers).forEach(
-        removerPeer
-    );
+    Object.keys(peers).forEach((id) => {
+        delete peers[id];
+    });
 
 
-    peers = {};
+    Object.keys(remoteAudios).forEach((id) => {
+
+        if (remoteAudios[id]) {
+
+            remoteAudios[id].srcObject = null;
+            remoteAudios[id].remove();
+
+        }
+
+        delete remoteAudios[id];
+
+    });
 
 
     if (localStream) {
@@ -981,51 +969,55 @@ function sairDaCall() {
 // CHAT
 // ========================================
 
-form.addEventListener(
-    "submit",
-    (event) => {
+if (form) {
 
-        event.preventDefault();
+    form.addEventListener(
+        "submit",
+        (event) => {
 
-
-        if (!username) {
-
-            loginOverlay.style.display =
-                "flex";
-
-            usernameInput.focus();
-
-            return;
-        }
+            event.preventDefault();
 
 
-        const text =
-            input.value.trim();
+            if (!username) {
 
+                loginOverlay.style.display =
+                    "flex";
 
-        if (!text) {
-            return;
-        }
+                usernameInput.focus();
 
-
-        socket.emit(
-            "chat message",
-            {
-
-                username,
-                text,
-                channel: currentChannel
-
+                return;
             }
-        );
 
 
-        input.value = "";
+            const text =
+                input.value.trim();
 
-        input.focus();
 
-    }
-);
+            if (!text) {
+                return;
+            }
+
+
+            socket.emit(
+                "chat message",
+                {
+
+                    username,
+                    text,
+                    channel: currentChannel
+
+                }
+            );
+
+
+            input.value = "";
+
+            input.focus();
+
+        }
+    );
+
+}
 
 
 // ========================================
@@ -1052,8 +1044,10 @@ socket.on(
         );
 
 
-        messages.scrollTop =
-            messages.scrollHeight;
+        if (messages) {
+            messages.scrollTop =
+                messages.scrollHeight;
+        }
 
     }
 );
@@ -1089,8 +1083,10 @@ socket.on(
         );
 
 
-        messages.scrollTop =
-            messages.scrollHeight;
+        if (messages) {
+            messages.scrollTop =
+                messages.scrollHeight;
+        }
 
     }
 );
@@ -1104,6 +1100,8 @@ function addMessage(
     username,
     text
 ) {
+
+    if (!messages) return;
 
     const message =
         document.createElement(
