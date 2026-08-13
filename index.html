@@ -4,7 +4,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>NovaCord</title>
 
     <link rel="stylesheet" href="style.css">
@@ -17,21 +16,22 @@
         <!-- SERVIDORES -->
         <aside class="servers">
 
-            <div class="server active">N</div>
-            <div class="server">🎮</div>
-            <div class="server">🔥</div>
-            <div class="server">😂</div>
+            <button class="server active" type="button">N</button>
+            <button class="server" type="button">🎮</button>
+            <button class="server" type="button">🔥</button>
+            <button class="server" type="button">😂</button>
 
         </aside>
 
 
-        <!-- LISTA DE CANAIS -->
+        <!-- SIDEBAR -->
         <aside class="sidebar">
 
             <div class="server-header">
                 <span>NovaCord</span>
-                <button>⌄</button>
+                <button type="button">⌄</button>
             </div>
+
 
             <div class="channels">
 
@@ -39,35 +39,65 @@
                     TEXT CHANNELS
                 </div>
 
-                <div class="channel active">
+
+                <button
+                    class="channel active"
+                    type="button"
+                    data-type="text"
+                    data-channel="geral"
+                >
                     <span>#</span>
                     <p>geral</p>
-                </div>
+                </button>
 
-                <div class="channel">
+
+                <button
+                    class="channel"
+                    type="button"
+                    data-type="text"
+                    data-channel="jogos"
+                >
                     <span>#</span>
                     <p>jogos</p>
-                </div>
+                </button>
 
-                <div class="channel">
+
+                <button
+                    class="channel"
+                    type="button"
+                    data-type="text"
+                    data-channel="memes"
+                >
                     <span>#</span>
                     <p>memes</p>
-                </div>
+                </button>
 
 
                 <div class="category">
                     VOICE CHANNELS
                 </div>
 
-                <div class="channel">
+
+                <button
+                    class="channel voice-channel"
+                    type="button"
+                    data-type="voice"
+                    data-channel="Geral"
+                >
                     <span>🔊</span>
                     <p>Geral</p>
-                </div>
+                </button>
 
-                <div class="channel">
+
+                <button
+                    class="channel voice-channel"
+                    type="button"
+                    data-type="voice"
+                    data-channel="Jogos"
+                >
                     <span>🔊</span>
                     <p>Jogos</p>
-                </div>
+                </button>
 
             </div>
 
@@ -75,17 +105,17 @@
             <!-- USUÁRIO -->
             <div class="user-panel">
 
-                <div class="avatar">
+                <div class="avatar" id="userAvatar">
                     V
                     <div class="status"></div>
                 </div>
 
                 <div class="user-info">
-                    <strong>Você</strong>
+                    <strong id="usernameDisplay">Você</strong>
                     <small>Online</small>
                 </div>
 
-                <button class="user-button">
+                <button class="user-button" type="button">
                     ⚙
                 </button>
 
@@ -100,16 +130,19 @@
             <header class="chat-header">
 
                 <div class="channel-title">
-                    <span>#</span>
-                    <strong>geral</strong>
+                    <span id="channelIcon">#</span>
+                    <strong id="channelName">geral</strong>
                 </div>
 
+
                 <div class="header-buttons">
-                    <button>🔔</button>
-                    <button>👥</button>
-                    <button>🔍</button>
-                    <button>📌</button>
-                    <button>⚙</button>
+
+                    <button type="button">🔔</button>
+                    <button type="button">👥</button>
+                    <button type="button">🔍</button>
+                    <button type="button">📌</button>
+                    <button type="button">⚙</button>
+
                 </div>
 
             </header>
@@ -124,7 +157,9 @@
                         #
                     </div>
 
-                    <h1>Bem-vindo ao NovaCord!</h1>
+                    <h1>
+                        Bem-vindo ao NovaCord!
+                    </h1>
 
                     <p>
                         Este é o começo do canal #geral.
@@ -142,9 +177,11 @@
 
                     <button
                         type="button"
-                        class="add-button">
+                        class="add-button"
+                    >
                         +
                     </button>
+
 
                     <input
                         id="messageInput"
@@ -153,15 +190,19 @@
                         autocomplete="off"
                     >
 
+
                     <button
                         type="button"
-                        class="emoji-button">
+                        class="emoji-button"
+                    >
                         😊
                     </button>
 
+
                     <button
                         type="submit"
-                        class="send-button">
+                        class="send-button"
+                    >
                         ➤
                     </button>
 
@@ -174,10 +215,50 @@
     </div>
 
 
+    <!-- PAINEL PARA ESCOLHER NOME -->
+    <div
+        class="login-overlay"
+        id="loginOverlay"
+    >
+
+        <div class="login-box">
+
+            <div class="login-logo">
+                N
+            </div>
+
+            <h1>
+                Bem-vindo ao NovaCord!
+            </h1>
+
+            <p>
+                Escolha um nome para entrar no servidor.
+            </p>
+
+            <input
+                id="usernameInput"
+                type="text"
+                maxlength="20"
+                placeholder="Digite seu nome"
+                autocomplete="off"
+            >
+
+            <button
+                id="enterButton"
+                type="button"
+            >
+                Entrar no NovaCord
+            </button>
+
+        </div>
+
+    </div>
+
+
     <!-- SOCKET.IO -->
     <script src="/socket.io/socket.io.js"></script>
 
-    <!-- JAVASCRIPT DO NOVACORD -->
+    <!-- SCRIPT DO NOVACORD -->
     <script src="script.js"></script>
 
 </body>
