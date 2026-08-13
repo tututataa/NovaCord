@@ -1,65 +1,30 @@
 const express = require("express");
 const http = require("http");
 const { Server } = require("socket.io");
-const path = require("path");
-
 
 const app = express();
-
 const server = http.createServer(app);
-
 const io = new Server(server);
 
-
-/* SERVIR OS ARQUIVOS DO NOVACORD */
-
+// Servir os arquivos do NovaCord
 app.use(express.static(__dirname));
 
-
-/* USUÁRIO CONECTADO */
-
+// Socket.IO
 io.on("connection", (socket) => {
-
     console.log("Usuário conectado:", socket.id);
 
-
-    /* RECEBER MENSAGEM */
-
     socket.on("chat message", (message) => {
-
-        console.log("Mensagem:", message);
-
-
-        /* ENVIAR PARA TODOS */
-
         io.emit("chat message", message);
-
     });
-
-
-    /* USUÁRIO DESCONECTADO */
 
     socket.on("disconnect", () => {
-
-        console.log(
-            "Usuário desconectado:",
-            socket.id
-        );
-
+        console.log("Usuário desconectado:", socket.id);
     });
-
 });
 
-
-/* PORTA DO SERVIDOR */
-
-const PORT = 3000;
-
+// Porta para hospedagem ou uso local
+const PORT = process.env.PORT || 3000;
 
 server.listen(PORT, () => {
-
-    console.log(
-        `NovaCord rodando em http://localhost:${PORT}`
-    );
-
+    console.log(`NovaCord rodando na porta ${PORT}`);
 });
